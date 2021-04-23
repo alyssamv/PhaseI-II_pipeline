@@ -1,0 +1,527 @@
+---
+title: "Tables and Figures"
+author: "Alyssa Vanderbeek"
+output: pdf_document
+header-includes:
+    - \usepackage[labelformat=empty]{caption}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+library(kableExtra)
+
+load(file.path(getwd(), "/sims_null2.RData"))
+load(file.path(getwd(), "/sims_alt2.RData"))
+```
+
+
+
+```{r}
+selection_33.null = lapply(three.sims.null, function(i){
+  tt = unlist(lapply(i, `[[`, 2))
+  tt = replace(tt, tt == "Dose not selected", NA)
+  return(factor(tt, levels = c(1, 2, 3, 4, 5, NA)))
+})
+selection_crm.null = lapply(crm.sims.null, function(i){
+  tt = unlist(lapply(i, `[[`, 2))
+  tt = replace(tt, tt == "Dose not selected", NA)
+  return(factor(tt, levels = c(1, 2, 3, 4, 5, NA)))
+})
+selection_efftox.null = lapply(efftox.sims.null, function(i){
+  tt = unlist(lapply(i, `[[`, 2))
+  tt = replace(tt, tt == "Dose not selected", NA)
+  return(factor(tt, levels = c(1, 2, 3, 4, 5, NA)))
+})
+
+
+selection_33.alt = lapply(three.sims.alt, function(i){
+  tt = unlist(lapply(i, `[[`, 2))
+  tt = replace(tt, tt == "Dose not selected", NA)
+  return(factor(tt, levels = c(1, 2, 3, 4, 5, NA)))
+})
+selection_crm.alt = lapply(crm.sims.alt, function(i){
+  tt = unlist(lapply(i, `[[`, 2))
+  tt = replace(tt, tt == "Dose not selected", NA)
+  return(factor(tt, levels = c(1, 2, 3, 4, 5, NA)))
+})
+selection_efftox.alt = lapply(efftox.sims.alt, function(i){
+  tt = unlist(lapply(i, `[[`, 2))
+  tt = replace(tt, tt == "Dose not selected", NA)
+  return(factor(tt, levels = c(1, 2, 3, 4, 5, NA)))
+})
+```
+
+
+```{r}
+rbind(c(dlt.true, "--"),
+      c(response.null[[1]], "--"),
+      c(table(selection_33.null[[1]])/N, sum(is.na(selection_33.null[[1]]))/N),
+      c(table(selection_crm.null[[1]])/N, sum(is.na(selection_crm.null[[1]]))/N),
+      c(table(selection_efftox.null[[1]])/N, sum(is.na(selection_efftox.null[[1]]))/N),
+      c(response.null[[2]], "--"),
+      c(table(selection_33.null[[2]])/N, sum(is.na(selection_33.null[[2]]))/N),
+      c(table(selection_crm.null[[2]])/N, sum(is.na(selection_crm.null[[2]]))/N),
+      c(table(selection_efftox.null[[2]])/N, sum(is.na(selection_efftox.null[[2]]))/N),
+      c(response.null[[3]], "--"),
+      c(table(selection_33.null[[3]])/N, sum(is.na(selection_33.null[[3]]))/N),
+      c(table(selection_crm.null[[3]])/N, sum(is.na(selection_crm.null[[3]]))/N),
+      c(table(selection_efftox.null[[3]])/N, sum(is.na(selection_efftox.null[[3]]))/N),
+      c(response.null[[4]], "--"),
+      c(table(selection_33.null[[4]])/N, sum(is.na(selection_33.null[[4]]))/N),
+      c(table(selection_crm.null[[4]])/N, sum(is.na(selection_crm.null[[4]]))/N),
+      c(table(selection_efftox.null[[4]])/N, sum(is.na(selection_efftox.null[[4]]))/N),
+      c(response.null[[5]], "--"),
+      c(table(selection_33.null[[5]])/N, sum(is.na(selection_33.null[[5]]))/N),
+      c(table(selection_crm.null[[5]])/N, sum(is.na(selection_crm.null[[5]]))/N),
+      c(table(selection_efftox.null[[5]])/N, sum(is.na(selection_efftox.null[[5]]))/N)) %>%
+  `colnames<-`(c(1, 2, 3, 4, 5, "Dose not found")) %>%
+  `rownames<-`(c("pDLT", rep(c("ORR", "3 + 3", "CRM", "EffTox"), 5))) %>%
+  knitr::kable(caption = "Selection probability when at least no dose is effective",
+               row.names = TRUE,
+               format = "latex",
+               booktabs = T, escape = F, linesep = "") %>%
+  kable_styling() %>%
+  kableExtra::pack_rows("Scenario 1", 2, 5) %>%
+  kableExtra::pack_rows("Scenario 2", 6, 9) %>%
+  kableExtra::pack_rows("Scenario 3", 10, 13) %>%
+  kableExtra::pack_rows("Scenario 4", 14, 17) %>%
+  kableExtra::pack_rows("Scenario 5", 18, 21)
+
+rbind(c(dlt.true, "--"),
+      c(response.alt[[1]], "--"),
+      c(table(selection_33.alt[[1]])/N, sum(is.na(selection_33.alt[[1]]))/N),
+      c(table(selection_crm.alt[[1]])/N, sum(is.na(selection_crm.alt[[1]]))/N),
+      c(table(selection_efftox.alt[[1]])/N, sum(is.na(selection_efftox.alt[[1]]))/N),
+      c(response.alt[[2]], "--"),
+      c(table(selection_33.alt[[2]])/N, sum(is.na(selection_33.alt[[2]]))/N),
+      c(table(selection_crm.alt[[2]])/N, sum(is.na(selection_crm.alt[[2]]))/N),
+      c(table(selection_efftox.alt[[2]])/N, sum(is.na(selection_efftox.alt[[2]]))/N),
+      c(response.alt[[3]], "--"),
+      c(table(selection_33.alt[[3]])/N, sum(is.na(selection_33.alt[[3]]))/N),
+      c(table(selection_crm.alt[[3]])/N, sum(is.na(selection_crm.alt[[3]]))/N),
+      c(table(selection_efftox.alt[[3]])/N, sum(is.na(selection_efftox.alt[[3]]))/N),
+      c(response.alt[[4]], "--"),
+      c(table(selection_33.alt[[4]])/N, sum(is.na(selection_33.alt[[4]]))/N),
+      c(table(selection_crm.alt[[4]])/N, sum(is.na(selection_crm.alt[[4]]))/N),
+      c(table(selection_efftox.alt[[4]])/N, sum(is.na(selection_efftox.alt[[4]]))/N),
+      c(response.alt[[5]], "--"),
+      c(table(selection_33.alt[[5]])/N, sum(is.na(selection_33.alt[[5]]))/N),
+      c(table(selection_crm.alt[[5]])/N, sum(is.na(selection_crm.alt[[5]]))/N),
+      c(table(selection_efftox.alt[[5]])/N, sum(is.na(selection_efftox.alt[[5]]))/N)) %>%
+  `colnames<-`(c(1, 2, 3, 4, 5, "Dose not found")) %>%
+  `rownames<-`(c("pDLT", rep(c("ORR", "3 + 3", "CRM", "EffTox"), 5))) %>%
+  knitr::kable(caption = "Selection probability when at least 1 dose is effective",
+               row.names = TRUE,
+               format = "latex",
+               booktabs = T, escape = F, linesep = "") %>%
+  kable_styling() %>%
+  kableExtra::kable_styling("striped", full_width = F) %>%
+  kableExtra::pack_rows("Scenario 1", 2, 5) %>%
+  kableExtra::pack_rows("Scenario 2", 6, 9) %>%
+  kableExtra::pack_rows("Scenario 3", 10, 13) %>%
+  kableExtra::pack_rows("Scenario 4", 14, 17) %>%
+  kableExtra::pack_rows("Scenario 5", 18, 21)
+```
+
+```{r}
+n_33.null = lapply(three.sims.null, function(i){
+  n1 = unlist(lapply(i, `[[`, 1))
+  ntotal = n1 + 40
+  m = ceiling(mean(ntotal))
+  s = round(sd(ntotal), 2)
+  return(paste0(m, " (", s, ")"))
+})
+n_crm.null = lapply(crm.sims.null, function(i){
+  n1 = unlist(lapply(i, `[[`, 1))
+  ntotal = n1 + 40
+  m = ceiling(mean(ntotal))
+  s = round(sd(ntotal), 2)
+  return(paste0(m, " (", s, ")"))
+})
+n_efftox.null = lapply(efftox.sims.null, function(i){
+  n1 = unlist(lapply(i, `[[`, 1))
+  ntotal = n1 + 40
+  m = ceiling(mean(ntotal))
+  s = round(sd(ntotal), 2)
+  return(paste0(m, " (", s, ")"))
+})
+
+n_33.alt = lapply(three.sims.alt, function(i){
+  n1 = unlist(lapply(i, `[[`, 1))
+  ntotal = n1 + 40
+  m = ceiling(mean(ntotal))
+  s = round(sd(ntotal), 2)
+  return(paste0(m, " (", s, ")"))
+})
+n_crm.alt = lapply(crm.sims.alt, function(i){
+  n1 = unlist(lapply(i, `[[`, 1))
+  ntotal = n1 + 40
+  m = ceiling(mean(ntotal))
+  s = round(sd(ntotal), 2)
+  return(paste0(m, " (", s, ")"))
+})
+n_efftox.alt = lapply(efftox.sims.alt, function(i){
+  n1 = unlist(lapply(i, `[[`, 1))
+  ntotal = n1 + 40
+  m = ceiling(mean(ntotal))
+  s = round(sd(ntotal), 2)
+  return(paste0(m, " (", s, ")"))
+})
+
+rbind(unlist(n_33.null),
+      unlist(n_crm.null),
+      unlist(n_efftox.null),
+      unlist(n_33.alt),
+      unlist(n_crm.alt),
+      unlist(n_efftox.alt)) %>%
+  `colnames<-`(c(1:5)) %>%
+  `rownames<-`(rep(c("3 + 3", "CRM", "EffTox"), 2)) %>%
+  knitr::kable(caption = "Average sample size across scenarios",
+               row.names = TRUE,
+               format = "latex",
+               booktabs = T, escape = F, linesep = "") %>%
+  kable_styling() %>%
+  kableExtra::kable_styling("striped", full_width = F) %>%
+  kableExtra::pack_rows("Ineffective drug", 1, 3) %>%
+  kableExtra::pack_rows("Effective drug", 4, 6) 
+
+```
+
+```{r pcs}
+best.dose = lapply(1:n.dose, function(i){
+  intersect(which(response.alt[[i]] >= 0.6)[[1]], 
+            which(dlt.true <= target))
+})
+
+three.pcs = lapply(1:n.dose, function(i){
+  t = as.numeric(selection_33.alt[[i]])
+  pcs = sum(t == best.dose[[i]], na.rm = TRUE) / N
+  return(round(pcs, 3))
+})
+
+crm.pcs = lapply(1:n.dose, function(i){
+  t = as.numeric(selection_crm.alt[[i]])
+  pcs = sum(t == best.dose[[i]], na.rm = TRUE) / N
+  return(round(pcs, 3))
+})
+
+efftox.pcs = lapply(1:n.dose, function(i){
+  t = as.numeric(selection_efftox.alt[[i]])
+  pcs = sum(t == best.dose[[i]], na.rm = TRUE) / N
+  return(round(pcs, 3))
+})
+
+
+acc.dose = lapply(1:n.dose, function(i){
+  intersect(which(response.alt[[i]] >= 0.6), 
+            which(dlt.true <= target))
+})
+
+three.pas = lapply(1:n.dose, function(i){
+  t = as.numeric(selection_33.alt[[i]])
+  pcs = sum(t %in% acc.dose[[i]], na.rm = TRUE) / N
+  return(round(pcs, 3))
+})
+
+crm.pas = lapply(1:n.dose, function(i){
+  t = as.numeric(selection_crm.alt[[i]])
+  pcs = sum(t %in% acc.dose[[i]], na.rm = TRUE) / N
+  return(round(pcs, 3))
+})
+
+efftox.pas = lapply(1:n.dose, function(i){
+  t = as.numeric(selection_efftox.alt[[i]])
+  pcs = sum(t %in% acc.dose[[i]], na.rm = TRUE) / N
+  return(round(pcs, 3))
+})
+
+
+rbind(three.pcs, ## PCS
+      crm.pcs,
+      efftox.pcs, ## PAS
+      three.pas,
+      crm.pas,
+      efftox.pas) %>%
+  `rownames<-`(rep(c("3 + 3", "CRM", "EffTox"), 2)) %>%
+  knitr::kable(caption = "Phase I selection probabilities",
+               row.names = TRUE,
+               format = "latex",
+               col.names = 1:5,
+               booktabs = T, escape = F, linesep = "") %>%
+  kable_styling() %>%
+  add_header_above(c("Pipeline", "Scenario" = 5), 
+                   bold = TRUE) %>%
+  pack_rows(group_label = "Probability of best selection (PBS)", start_row = 1, end_row = 3) %>%
+  pack_rows(group_label = "Probability of acceptable selection (PAS)", start_row = 4, end_row = 6)
+```
+
+
+```{r fpr}
+alpha = 0.05
+q = 0.2 ## probability that the drug is effective 
+
+contingency.sum <- function(null, alt, sims, number, metric, q) {
+  alpha = 0.05
+  
+  ### DRUG EFFECTIVE 
+  ## phase I selection 
+  g1 = as.numeric(alt[[number]])
+  ## list of ALL effective and safe doses
+  eff.doses.g1 = intersect(which(response.alt[[number]] >= 0.6), which(dlt.true <= target))
+  
+  ### DRUG INEFFECTIVE 
+  ## phase I selection 
+  g0 = as.numeric(null[[number]])
+  ## list of ALL effective and safe doses
+  eff.doses.g0 = intersect(which(response.null[[number]] >= 0.6), which(dlt.true <= target))
+  
+  ## indexes of the phase I trials that didn't select an effective dose
+  if (metric == "fpr") {
+    ## list of ba phase I 
+    p1.g1 = which(!(g1[which(!is.na(g1))] %in% eff.doses.g1))  
+    p1.g0 = which(!(g0[which(!is.na(g0))] %in% eff.doses.g0))  
+  } else if (metric == "tpr") {
+    ## list of good p1
+    p1.g1 = which(g1 %in% eff.doses.g1)
+    p1.g0 = which(g0 %in% eff.doses.g0)
+
+  # } else if (metric == "fnr") {
+  #   ## list of good p1
+  #   p1 = which(t %in% eff.doses)
+  # } else if (metric == "tnr") {
+  #   ## list of ba phase I 
+  #   p1 = which(!(t %in% eff.doses))
+   }
+
+  ## DRUG EFFECTIVE
+  ## phase II trials that followed bad phase I
+  p2.g1 = sims[[number]]
+  match.p2.g1 = p2.g1[p1.g1]
+  
+  p.values.g1 = unlist(lapply(match.p2.g1, function(i){
+    return(unlist(i)["phase2.p.value"] %>%
+             unname %>%
+             as.numeric)
+  }))
+  p.values.g1[(which(is.na(p.values.g1)))] <- 1
+  gamma1 = sum(p.values.g1 <= alpha, na.rm = TRUE) / N
+  
+  if (metric == "fpr") {
+    ## DRUG INEFFECTIVE
+    ## phase II trials that followed bad phase I
+    p2.g0 = sims[[number]]
+    match.p2.g0 = p2.g0[p1.g0]
+    
+    p.values.g0 = unlist(lapply(match.p2.g0, function(i){
+      return(unlist(i)["phase2.p.value"] %>%
+               unname %>%
+               as.numeric)
+    }))
+    p.values.g0[(which(is.na(p.values.g0)))] <- 1
+    gamma0 = sum(p.values.g0 <= alpha, na.rm = TRUE) / N
+    
+    fpr = (1 - q)*gamma0 + q*gamma1
+    
+  } else if (metric == "tpr") {
+    fpr = gamma1
+  }
+  
+  return(round(fpr, 3))
+}
+
+fpr.three = lapply(1:n.dose, function(i){ 
+  fpr = contingency.sum(null = selection_33.null,
+                        alt = selection_33.alt, 
+                        sims = three.sims.alt, 
+                        number = i, 
+                        metric = "fpr",
+                        q = q)
+  return(fpr)
+})
+  
+
+fpr.crm = lapply(1:n.dose, function(i){
+  fpr = contingency.sum(null = selection_crm.null,
+                        alt = selection_crm.alt, 
+                        sims = crm.sims.alt, 
+                        number = i, 
+                        metric = "fpr",
+                        q = q)
+  return(fpr)
+})
+
+
+fpr.efftox = lapply(1:n.dose, function(i){
+  fpr = contingency.sum(null = selection_efftox.null,
+                        alt = selection_efftox.alt, 
+                        sims = efftox.sims.alt, 
+                        number = i, 
+                        metric = "fpr",
+                        q = q)
+  return(fpr)
+})
+
+
+
+tpr.three = lapply(1:n.dose, function(i){ 
+  f = contingency.sum(null = selection_33.null,
+                        alt = selection_33.alt, 
+                        sims = three.sims.alt, 
+                        number = i, 
+                        metric = "tpr",
+                        q = q)
+  return(f)
+})
+  
+
+tpr.crm = lapply(1:n.dose, function(i){
+  f = contingency.sum(null = selection_crm.null,
+                        alt = selection_crm.alt, 
+                        sims = crm.sims.alt, 
+                        number = i, 
+                        metric = "tpr",
+                        q = q)
+  return(f)
+})
+
+
+tpr.efftox = lapply(1:n.dose, function(i){
+  f = contingency.sum(null = selection_efftox.null,
+                        alt = selection_efftox.alt, 
+                        sims = efftox.sims.alt, 
+                        number = i, 
+                        metric = "tpr",
+                        q = q)
+  return(f)
+})
+
+rbind(fpr.three,
+      fpr.crm,
+      fpr.efftox,
+      tpr.three,
+      tpr.crm,
+      tpr.efftox,
+      1 - unlist(tpr.three),
+      1 - unlist(tpr.crm),
+      1 - unlist(tpr.efftox),
+      1 - unlist(fpr.three),
+      1 - unlist(fpr.crm),
+      1 - unlist(fpr.efftox)) %>%
+  `rownames<-`(rep(c("3 + 3",
+                 "CRM",
+                 "EffTox"), 4)) %>%
+  knitr::kable(caption = "FPR, TPR, FNR, TNR of designs under 5 scenarios",
+               row.names = TRUE,
+               format = "latex",
+               col.names = 1:5,
+               booktabs = T, escape = F, linesep = "") %>%
+  kable_styling() %>%
+  add_header_above(c("Pipeline", "Scenario" = 5), 
+                   bold = TRUE) %>%
+  pack_rows("False positive rate (FPR)", 1, 3) %>%
+  pack_rows("True positive rate (TPR)", 4, 6) %>%
+  pack_rows("False negative rate (FNR)", 7, 9) %>%
+  pack_rows("True negative rate (TNR)", 10, 12)
+```
+
+
+
+
+
+```{r ppv_npv}
+three.pv = lapply(1:n.dose, function(i){
+  ppv = tpr.three[[i]][[1]]/sum(tpr.three[[i]][[1]], fpr.three[[i]][[1]])
+  npv = (1 - fpr.three[[i]][[1]])/sum(1 - tpr.three[[i]][[1]], 1 - fpr.three[[i]][[1]])
+  
+  f = 2 * (ppv * tpr.three[[i]][[1]]) / sum(ppv, tpr.three[[i]][[1]])
+  
+  return(round(f, 3))
+  })
+crm.pv = lapply(1:n.dose, function(i){
+  ppv = tpr.crm[[i]][[1]]/sum(tpr.crm[[i]][[1]], fpr.crm[[i]][[1]])
+  npv = (1 - fpr.crm[[i]][[1]])/sum(1 - tpr.crm[[i]][[1]], 1 - fpr.crm[[i]][[1]])
+  
+  f = 2 * (ppv * tpr.crm[[i]][[1]]) / sum(ppv, tpr.crm[[i]][[1]])
+  
+  return(round(f, 3))
+  })
+efftox.pv = lapply(1:n.dose, function(i){
+  ppv = tpr.efftox[[i]][[1]]/sum(tpr.efftox[[i]][[1]], fpr.efftox[[i]][[1]])
+  npv = (1 - fpr.efftox[[i]][[1]])/sum(1 - tpr.efftox[[i]][[1]], 1 - fpr.efftox[[i]][[1]])
+  
+  f = 2 * (ppv * tpr.efftox[[i]][[1]]) / sum(ppv, tpr.efftox[[i]][[1]])
+  
+  return(round(f, 3))
+  })
+
+rbind(do.call(cbind, three.pv),
+      do.call(cbind, crm.pv),
+      do.call(cbind, efftox.pv)) %>%
+  `rownames<-`(c("3 + 3",
+                 "CRM",
+                 "EffTox")) %>%
+  knitr::kable(caption = "F-score of designs across scenarios",
+               col.names = 1:5,
+               row.names = TRUE,
+               format = "latex",
+               booktabs = T, escape = F, linesep = "") %>%
+  kable_styling() %>%
+  add_header_above(c("Pipeline", "Scenario" = 5), 
+                   bold = TRUE)
+```
+
+```{r fig1}
+mtd.true = tail(which(dlt.true <= target), n = 1)
+
+par(mfrow = c(2, 3))
+for (i in 1:length(response.alt)) {
+  plot(x = 1:n.dose, y = dlt.true, type = 'b',
+       ylim = c(0, 1),
+       col = "red",
+       xlab = "",
+       ylab = "")
+  lines(x = 1:n.dose, y = response.alt[[i]], type = 'b',
+        ylim = c(0, 1),
+        col = "green")
+  abline(h = target, lty = 2)
+  abline(h = 0.6, lty = 3)
+  title(main = paste("Scenario", i, sep = " "),
+        xlab = "Dose",
+        ylab = "Probability")
+  points(x = mtd.true, y = dlt.true[[mtd.true]], pch = 17, cex = 1.2) # MTD
+  points(x = acc.dose[[i]], y = response.alt[[i]][acc.dose[[i]]],
+         pch = 16, cex = 2, col = "green")
+  points(x = correct.dose[[i]],
+         response.alt[[i]][correct.dose[[i]]], pch = 8, cex = 1.2) # correct dose
+  
+}
+plot(1, type = "n", xlab = "", ylab = "", xlim = c(0, 10), ylim = c(0, 10), axes = FALSE,
+     xaxt = "n", yaxt = "n")
+legend(x = 0, y = 10, legend = c("Dose-toxicity", "Dose-efficacy", "Target toxicity", "Target response", "MTD", "Best dose", "Acceptable dose"),
+       col = c("red", "green", "black", "black", "black", "black", "green"),
+       lty = c(1, 1, 2, 3, NA, NA, NA), pch = c(1, 1, NA, NA, 17, 8, 16),
+       cex = 1.6, bty = "n")
+
+```
+
+\[
+\begin{aligned}
+\text{Let } P(\gamma) &= P(p_{\text{phase II}} \leq \alpha | \text{RP2D not acceptable}), \\
+P(\phi) &= P(p_{\text{phase II}} \leq \alpha | \text{RP2D acceptable}), \\
+G_0 &= \text{ineffective drug}, \\
+G_1 &= \text{effective drug}.
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+\textbf{FPR} &= P(\gamma) \\
+&= \sum_{i=0}^1 P(\gamma | G_i)P(G_i) \\
+&= P(\gamma | G_0)P(G_0) + P(\gamma | G_1)P(G_1) \\
+&= P(\gamma | G_0)(1 - P(G_1)) + P(\gamma | G_1)P(G_1) \\
+\text{ }. \\
+\textbf{TPR} &= P(\phi) = P(\phi | G_1)
+\end{aligned}
+\]
