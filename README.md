@@ -1,6 +1,7 @@
-# PhaseI-II_pipeline
+# Simulation of drug development pipeline from phase I to phase II
+This project was presented at the SCT 42nd Annual Meeting in May 2021. Slides are provided here.
 
-The code here simulates a partial drug development pipeline, from phase I to phase II. 
+The aims are to assess the consequences of drug and phase I design characteristicson phase II trial outcomes.
 
 Three phase I designs are used:
 * 3+3
